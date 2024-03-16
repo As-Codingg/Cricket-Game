@@ -12,19 +12,9 @@
         onclick="
     
     let computerChoice = computerchance();
-
-    
-
     let resultMsg = result('Bat', computerChoice);
-    // if (computerChoice === 'Bat') {
-    //    resultMsg = `Its's a Tie`
-    // } else if (computerChoice === 'Ball') {
-    //     resultMsg = 'You Won.'
-    // } else if (computerChoice === 'Stump') {
-    //     resultMsg = 'Computer Won.'
-    // }
+    showResult('Bat', computerChoice, resultMsg)
     
-    alert(`You Choose Bat And Computer Choose ${computerChoice} ${resultMsg}`)
     "
       >
         Bat
@@ -32,18 +22,9 @@
       <button
         onclick="
     computerChoice = computerchance();
+    resultMsg = result('Ball', computerChoice);
+    showResult('Ball', computerChoice, resultMsg)
     
-
-
-    if (computerChoice === 'Bat') {
-       resultMsg = 'Computer Won.'
-    } else if (computerChoice === 'Ball') {
-        resultMsg = `Its's a Tie`
-    } else if (computerChoice === 'Stump') {
-        resultMsg = 'You Won.'
-    }
-    
-    alert(`You Choose Ball And Computer Choose ${computerChoice} ${resultMsg}`)
     "
       >
         Ball
@@ -51,24 +32,23 @@
       <button
         onclick="
     computerChoice = computerchance();
-    
-
-    
-    if (computerChoice === 'Bat') {
-       resultMsg = 'You Won.'
-    } else if (computerChoice === 'Ball') {
-        resultMsg = 'Computer Won.'
-    } else if (computerChoice === 'Stump') {
-        resultMsg = `Its's a Tie`
-    }
-    
-    alert(`You Choose Stump And Computer Choose ${computerChoice} ${resultMsg}`)
+    resultMsg = result('Stump', computerChoice);
+    showResult('Stump', computerChoice, resultMsg)
     "
       >
         Stump
       </button>
     </div>
     <script>
+      let score = {
+        win: 0,
+        lost: 0,
+        tie: 0,
+        displayScore: function () {
+          return `Won:${score.win}, Lost:${score.lost}, Tie:${score.tie}`;
+        },
+      };
+
       //function 1 computerchoice
 
       function computerchance() {
@@ -88,29 +68,51 @@
       function result(userMove, computerMove) {
         if (userMove === "Bat") {
           if (computerMove === "Bat") {
+            score.tie++;
             return `Its's a Tie`;
           } else if (computerMove === "Ball") {
+            score.win++;
             return "You Won.";
           } else if (computerMove === "Stump") {
+            score.lost++;
             return "Computer Won.";
           }
         } else if (userMove === "Ball") {
           if (computerMove === "Bat") {
+            score.lost++;
             return "Computer Won.";
           } else if (computerMove === "Ball") {
+            score.tie++;
             return `Its's a Tie`;
           } else if (computerMove === "Stump") {
+            score.win++;
             return "You Won.";
           }
         } else {
           if (computerMove === "Stump") {
-            return "You Won.";
-          } else if (computerMove === "Ball") {
-            return "Computer Won.";
-          } else if (computerMove === "Stump") {
+            score.tie++;
             return `Its's a Tie`;
+          } else if (computerMove === "Ball") {
+            score.lost++;
+            return "Computer Won.";
+          } else if (computerMove === "Bat") {
+            score.tie++;
+            return "You Won.";
           }
         }
+      }
+
+      //function 3 result & score in pop up
+
+      function showResult(userMove, computerMove, result) {
+        alert(
+          `You are chosen ${userMove}. Computer Choice is ${computerMove}.
+          
+           ${result}
+
+           ${score.displayScore()}
+           `
+        );
       }
     </script>
   </body>
